@@ -24,7 +24,8 @@ class GeneticAlgorithm:
 
         for n in range( 0, numberOfGenerations ):
             ( currentFitnesses, avgFitness, bestFitness ) = self.evaluatePopulation( population )
-            print ''.join( bestFitness[ 1 ].getChromosome() ) + "\t # " + str( bestFitness[ 0 ] )
+            print ''.join( bestFitness[ 1 ].getChromosome() ),
+            print "\t # F = %f (avg. %f)" % ( bestFitness[ 0 ], avgFitness ) 
             if bestFitness[ 0 ] == 1.0:
                 print "Optimal solution found after %d generations" % n
                 sys.exit( 0 )
@@ -65,6 +66,7 @@ class GeneticAlgorithm:
             totalFitness += candidateFitness[ 0 ]
             fitnesses.append( candidateFitness )
         fitnesses.sort()
+
         averageFitness = totalFitness / len( population )
         bestFitness = ( fitnesses[ -1: ][ 0 ][ 0 ], fitnesses[ -1: ][ 0 ][ 1 ] )
         return ( fitnesses, averageFitness, bestFitness )
@@ -109,12 +111,9 @@ class GeneticAlgorithm:
         offspringChromosome3 += candidateOne.getChromosome()[ firstPivot:secondPivot ]
         offspringChromosome3 += candidateTwo.getChromosome()[ secondPivot: ]
         
-        offspring1 = CandidateSolution( self.vocabulary, self.chromosomeSize )
-        offspring2 = CandidateSolution( self.vocabulary, self.chromosomeSize )
-        offspring3 = CandidateSolution( self.vocabulary, self.chromosomeSize )
-        offspring1.setChromosome( offspringChromosome1 )
-        offspring2.setChromosome( offspringChromosome2 )
-        offspring3.setChromosome( offspringChromosome3 )
+        offspring1 = CandidateSolution( self.vocabulary, self.chromosomeSize, offspringChromosome1 )
+        offspring2 = CandidateSolution( self.vocabulary, self.chromosomeSize, offspringChromosome2 )
+        offspring3 = CandidateSolution( self.vocabulary, self.chromosomeSize, offspringChromosome3 )
 
         return ( offspring1, offspring2, offspring3 )
         
